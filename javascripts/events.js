@@ -21,10 +21,26 @@ const moveToCart = (e) => {
   const fishCard = $(e.target).closest('.fish');
   // console.log('fishcard',fishCard);
   $('#snagged').append(fishCard);
+  $(e.target).text('Remove From Cart').removeClass('add').addClass('remove');
+  // attach event again after click the add-to-cart button for remove-from-cart functionality
+  // $(e.target).on('click', removeFromCart); Version-1
+};
+
+// Remove fish from "Basket"
+const removeFromCart = (e) => {
+  // it will move the element to the destination, no need to delete the old element
+  const fishCard = $(e.target).closest('.fish');
+  // console.log('fishcard',fishCard);
+  $('#available').append(fishCard);
+  $(e.target).text('Add To Cart').removeClass('remove').addClass('add');;
+  // $(e.target).on('click', moveToCart); Version-1
 };
 
 const bindEvents = () => {
-  $('button.add').on('click',moveToCart);
+  // attach the event to body, and listen to specific class (.remove/.add).
+  $('body').on('click','.remove',removeFromCart);
+  $('body').on('click','.add',moveToCart);
+  // $('button.add').on('click',moveToCart); Version-1
   $('#show-sale').click(() => {
     changeButtonText();
     filterFish();
